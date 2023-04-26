@@ -1,9 +1,9 @@
+import { UserList } from "components/UserList/UserList";
+
 const Tweets = () => {
     return (
         <div>
-            <div>
-                Tweets
-            </div>
+            <UserList/>
         </div>
     )
 };
