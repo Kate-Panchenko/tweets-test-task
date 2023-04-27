@@ -10,7 +10,7 @@ export const Layout = styled.main`
     width: 768px;
   }
   @media screen and (min-width: 1200px) {
-    width: 1200px;
+    width: 1220px;
   }
 `;
 

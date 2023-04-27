@@ -1,26 +1,91 @@
 import { UserCard } from 'components/UserCard/UserCard';
 import { useEffect, useState } from 'react';
-import { getUsers } from 'services/api';
+import {
+  getUsers,
+  increaseUserFollowers,
+  decreaseUserFollowers,
+} from 'services/api';
 import { UserItem, List } from './UserList.styled';
+
+const LOCAL_STORAGE_KEY = 'followedUsersId';
 
 export const UserList = () => {
   const [users, setUsers] = useState([]);
-  const [error, setError] = useState(null);
+  const [followedUsersId, setFollowedUsersId] = useState(
+    JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || []
+  );
+  // const [error, setError] = useState(null);
 
   useEffect(() => {
-    getUsers()
-      .then(users => {
+    async function fetch() {
+      try {
+        const users = await getUsers();
         setUsers(users);
-      })
-      .catch(error => setError(error));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetch();
   }, []);
+
+  function followUser(user) {
+    setFollowedUsersId([...followedUsersId, user.id]);
+    localStorage.setItem(
+      LOCAL_STORAGE_KEY,
+      JSON.stringify([...followedUsersId, user.id])
+    );
+    async function increase(user) {
+      try {
+        const updatedUser = increaseUserFollowers(user);
+        updateUser(updatedUser);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    increase(user);
+  }
+
+  function unfollowUser(user) {
+    const updatedFollowedUserId = followedUsersId.filter(id => id !== user.id);
+    setFollowedUsersId(updatedFollowedUserId);
+    localStorage.setItem(
+      LOCAL_STORAGE_KEY,
+      JSON.stringify(updatedFollowedUserId)
+    );
+    async function decrease(user) {
+      try {
+        const updatedUser = decreaseUserFollowers(user);
+        updateUser(updatedUser);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    decrease(user);
+  }
+
+  const updateUser = (id, newProps) => {
+    setUsers(users => {
+      return users.map(user => {
+        if (user.id === id) {
+          return { ...user, ...newProps };
+        } else {
+          return user;
+        }
+      });
+    });
+  };
 
   return (
     <>
       <List>
         {users.map(user => (
           <UserItem key={user.id}>
-            <UserCard user={user} />
+            <UserCard
+              user={user}
+              follow={followUser}
+              unfollow={unfollowUser}
+              followedUsers={followedUsersId}
+            />
           </UserItem>
         ))}
       </List>

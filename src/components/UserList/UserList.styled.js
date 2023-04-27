@@ -21,6 +21,7 @@ export const List = styled.ul`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 18px;
   margin-top: 32px;
+  margin-bottom: 32px;
 `;

@@ -8,9 +8,11 @@ import {
   AvatarWrapper,
   InfoWrapper,
 } from './UserCard.styled';
+import { FollowButton } from 'components/Buttons/FollowButton';
+import { UnfollowButton } from 'components/Buttons/UnfollowButton';
 
-export const UserCard = ({ user }) => {
-  const { followers, tweets, id, avatar } = user;
+export const UserCard = ({ user, follow, unfollow, followedUsers }) => {
+  const { followers, tweets, avatar } = user;
   return (
     <>
       <StyledLogo src={Logo} alt="Logo" />
@@ -23,7 +25,11 @@ export const UserCard = ({ user }) => {
         <p>{tweets} Tweets</p>
         <p> {followers.toLocaleString('en-US')} Followers</p>
       </InfoWrapper>
-      <button>Follow</button>
+      {followedUsers.includes(user.id) ? (
+        <UnfollowButton type="button" onClick={unfollow} user={user} />
+      ) : (
+        <FollowButton type="button" onClick={follow} user={user} />
+      )}
     </>
   );
 };
