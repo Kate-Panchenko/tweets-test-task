@@ -14,7 +14,6 @@ export async function increaseUserFollowers(user) {
     followers: user.followers + 1,
     tweets: user.tweets,
   });
-  console.log(response.data);
   return response.data;
 }
 
@@ -25,6 +24,5 @@ export async function decreaseUserFollowers(user) {
     followers: user.followers - 1,
     tweets: user.tweets,
   });
-  console.log(response.data);
   return response.data;
 }

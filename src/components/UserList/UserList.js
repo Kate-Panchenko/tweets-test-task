@@ -36,8 +36,9 @@ export const UserList = () => {
     );
     async function increase(user) {
       try {
-        const updatedUser = increaseUserFollowers(user);
-        updateUser(updatedUser);
+        const updatedUser = await increaseUserFollowers(user);
+        const props = { followers: updatedUser.followers };
+        updateUser(updatedUser.id, props);
       } catch (error) {
         console.log(error);
       }
@@ -54,8 +55,9 @@ export const UserList = () => {
     );
     async function decrease(user) {
       try {
-        const updatedUser = decreaseUserFollowers(user);
-        updateUser(updatedUser);
+        const updatedUser = await decreaseUserFollowers(user);
+        const props = { followers: updatedUser.followers };
+        updateUser(updatedUser.id, props);
       } catch (error) {
         console.log(error);
       }
@@ -63,7 +65,7 @@ export const UserList = () => {
     decrease(user);
   }
 
-  const updateUser = (id, newProps) => {
+  function updateUser(id, newProps) {
     setUsers(users => {
       return users.map(user => {
         if (user.id === id) {
@@ -73,7 +75,7 @@ export const UserList = () => {
         }
       });
     });
-  };
+  }
 
   return (
     <>

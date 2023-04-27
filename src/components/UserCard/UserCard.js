@@ -12,7 +12,7 @@ import { FollowButton } from 'components/Buttons/FollowButton';
 import { UnfollowButton } from 'components/Buttons/UnfollowButton';
 
 export const UserCard = ({ user, follow, unfollow, followedUsers }) => {
-  const { followers, tweets, avatar } = user;
+  const { followers, tweets, avatar, id } = user;
   return (
     <>
       <StyledLogo src={Logo} alt="Logo" />
@@ -25,7 +25,7 @@ export const UserCard = ({ user, follow, unfollow, followedUsers }) => {
         <p>{tweets} Tweets</p>
         <p> {followers.toLocaleString('en-US')} Followers</p>
       </InfoWrapper>
-      {followedUsers.includes(user.id) ? (
+      {followedUsers.includes(id) ? (
         <UnfollowButton type="button" onClick={unfollow} user={user} />
       ) : (
         <FollowButton type="button" onClick={follow} user={user} />
