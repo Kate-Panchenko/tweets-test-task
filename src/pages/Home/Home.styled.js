@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { SiReact } from 'react-icons/si';
 
 export const HomePage = styled.div`
   display: flex;
@@ -21,5 +22,22 @@ export const StyledLink = styled(Link)`
   transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
   &:hover {
     color: ${props => props.theme.hover};
+  }
+`;
+
+export const ReactIcon = styled(SiReact)`
+  display: block;
+  width: 80px;
+  height: 80px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: rotate 5s infinite linear;
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 `;
